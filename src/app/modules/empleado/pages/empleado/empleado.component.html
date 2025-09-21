@@ -1,0 +1,212 @@
+<div class="card tabla">
+    <p-card>
+        <p-toast></p-toast>
+        <p-table [value]="lstEmpleado" selectionMode="single" class="p-datatable-sm"
+            [tableStyle]="{ 'min-width': '150rem' }" [scrollable]="true" scrollHeight="500px" #dt2 [paginator]="true"
+            [rowsPerPageOptions]="[10, 25, 50]" [showCurrentPageReport]="true" [rows]="10">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between">
+                    <h3 class="m-0">Listado de empleados</h3>
+                    <p-button icon="pi pi-plus" (click)="verFrmCrearEmpleado()" label="Agregar empleado" size="small"
+                        [raised]="true" severity="primary" iconPos="right"></p-button>
+                </div>
+                <div style="margin-top: 0.5%;">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" placeholder="Buscar por cédula" #cedula
+                            (keyup)="buscarEmpleado(cedula.value)" />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr class="text-xs w-10">
+                    <th pSortableColumn="nombre">
+                        Nombre <p-sortIcon field="nombre"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="apellido">
+                        Apellido <p-sortIcon field="apellido"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="numeroIdentificacion">
+                        No. ID <p-sortIcon field="numeroIdentificacion"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="ciudadMunicipio.departamento.nombre">
+                        Departamento
+                        <p-sortIcon field="ciudadMunicipio.departamento.nombre"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="ciudadMunicipio.nombre">
+                        Municipio <p-sortIcon field="ciudadMunicipio.nombre"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="direccionResidencia">
+                        Dirección <p-sortIcon field="direccionResidencia"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="numeroTelefono">
+                        Teléfono <p-sortIcon field="numeroTelefono"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="nivelAcademico.nombre">
+                        Nivel académico <p-sortIcon field="nivelAcademico"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="estadoCivil.nombre">
+                        Estado civil <p-sortIcon field="estadoCivil"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="cargo.nombre">
+                        Cargo <p-sortIcon field="cargo.nombre"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="estado.nombre">
+                        Estado <p-sortIcon field="estado.nombre"></p-sortIcon>
+                    </th>
+                    <th>Acciones</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-dataEmpleado>
+                <tr class="text-sm">
+                    <td>{{ dataEmpleado.nombre }}</td>
+                    <td>{{ dataEmpleado.apellido }}</td>
+                    <td>{{ dataEmpleado.numeroIdentificacion }}</td>
+                    <td>{{ dataEmpleado.ciudadMunicipio.departamento.nombre }}</td>
+                    <td>{{ dataEmpleado.ciudadMunicipio.nombre }}</td>
+                    <td>{{ dataEmpleado.direccionResidencia }}</td>
+                    <td>{{ dataEmpleado.numeroTelefono }}</td>
+                    <td>{{ dataEmpleado.nivelAcademico.nombre }}</td>
+                    <td>{{ dataEmpleado.estadoCivil.nombre }}</td>
+                    <td>{{ dataEmpleado.cargo.nombre }}</td>
+                    <td>{{ dataEmpleado.estado.nombre }}</td>
+                    <td>
+                        <p-button
+                            (click)="verOpciones(dataEmpleado.id, dataEmpleado.numeroIdentificacion, dataEmpleado)"
+                            icon="pi pi-plus" severity="warning" [raised]="true"></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-card>
+
+    <!-- Formualario para crear o editar los datos de un empleado -->
+    <div class="card flex">
+        <p-dialog header="{{ tituloForm }}" [(visible)]="fcrearEmpleado" [style]="{ width: '50vw', maxHeight: '90vh' }"
+            [contentStyle]="{ 'overflow-y': 'auto' }" [draggable]="false" [resizable]="false" [modal]="true">
+            <form [formGroup]="frmCrearEditarEmpleado">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-12 lg:col-6 sm:col-12 lg:mb-0">
+                        <label>Nombres</label>
+                        <span class="p-input-icon-right">
+                            <i class="pi pi-users"></i>
+                            <input pinputtext type="text" class="p-inputtext p-component p-element"
+                                formControlName="nombre" [pKeyFilter]="blockChars" maxlength="25" />
+                        </span>
+                    </div>
+                    <div class="field col-12 md:col-12 lg:col-6 sm:col-12">
+                        <label>Apellidos</label>
+                        <span class="p-input-icon-right">
+                            <i class="pi pi-users"></i>
+                            <input pinputtext type="text" class="p-inputtext p-component p-element"
+                                formControlName="apellido" pKeyFilter="alpha" maxlength="25"
+                                [pKeyFilter]="blockChars" />
+                        </span>
+                    </div>
+                    <div class="field col-12 md:col-12 lg:col-3 sm:col-12">
+                        <label>F. de Nacimiento</label>
+                        <p-calendar [showIcon]="true" formControlName="fechaNacimiento" dateFormat="dd/mm/yy"
+                            appendTo="body"></p-calendar>
+                    </div>
+                    <div class="field col-12 md:col-12 lg:col-3 sm:col-12">
+                        <label>Tipo identificacion</label>
+                        <p-dropdown optionLabel="nombre" [filter]="true" [options]="lstTipoDocumentoIdentidad"
+                            formControlName="documentoMaestro" filterBy="nombre" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-12 lg:col-3 sm:col-12">
+                        <label>No. identificación</label>
+                        <span class="p-input-icon-right">
+                            <i class="pi pi-id-card"></i>
+                            <input pinputtex type="text" class="p-inputtext p-component p-element"
+                                formControlName="numeroIdentificacion" pKeyFilter="int" maxlength="10" />
+                        </span>
+                    </div>
+                    <div class="field col-12 md:col-12 lg:col-3 sm:col-12">
+                        <label>Estado civil</label>
+                        <p-dropdown optionLabel="nombre" [filter]="true" [options]="lstEstadoCivil"
+                            formControlName="estadoCivil" filterBy="nombre" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="field col-12 lg:col-6 md:col-12 sm:col-12">
+                        <label>Departamento</label>
+                        <p-dropdown optionLabel="nombre" filterBy="nombre" [filter]="true" [options]="lstCiudad"
+                            [showClear]="true" (onChange)="obtenerMunicipiosPorDepartamento()"
+                            formControlName="departamento" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="field col-12 lg:col-6 md:col-12 sm:col-12">
+                        <label>Municipio</label>
+                        <p-dropdown optionLabel="nombre" [filter]="true" [options]="lstMunicipio"
+                            formControlName="ciudadMunicipio" filterBy="nombre" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-12 lg:col-4 sm:col-12">
+                        <label>Dirección</label>
+                        <span class="p-input-icon-right">
+                            <i class="pi pi-map-marker"></i>
+                            <input pinputtext type="text" class="p-inputtext p-component p-element"
+                                formControlName="direccionResidencia" [pKeyFilter]="blockChars" maxlength="100" />
+                        </span>
+                    </div>
+                    <div class="field col-12 md:col-12 lg:col-4 sm:col-12">
+                        <label>No. de telefono</label>
+                        <span class="p-input-icon-right">
+                            <i class="pi pi-phone"></i>
+                            <input pinputtext type="text" class="p-inputtext p-component p-element"
+                                formControlName="numeroTelefono" pKeyFilter="num" maxlength="10" />
+                        </span>
+                    </div>
+                    <div class="field col-12 md:col-4 lg:col-4 sm:col-12">
+                        <label>Nivel académico</label>
+                        <p-dropdown optionLabel="nombre" [filter]="true" [options]="lstNivelAcademico"
+                            formControlName="nivelAcademico" filterBy="nombre" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-12 lg:col-4 sm:col-12">
+                        <label>F. de Ingreso</label>
+                        <p-calendar [showIcon]="true" formControlName="fechaIngreso" dateFormat="dd/mm/yy"
+                            appendTo="body"></p-calendar>
+                    </div>
+                    <div class="field col-12 lg:col-4 md:col-12 sm:col-12">
+                        <label>Cargo</label>
+                        <p-dropdown optionLabel="nombre" appendTo="body" [filter]="true" [options]="lstCargo"
+                            formControlName="cargo" filterBy="nombre" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="field col-12 lg:col-4 md:col-12 sm:col-12">
+                        <label>Estado</label>
+                        <p-dropdown optionLabel="nombre" [filter]="true" [options]="lstEstado" formControlName="estado"
+                            filterBy="nombre" appendTo="body"></p-dropdown>
+                    </div>
+                </div>
+            </form>
+            <div align="center">
+                <p-button label="{{ tituloForm }}" class="p-button-success" (click)="validacionEditarCrear()"
+                    severity="{{ claseBoton }}"></p-button>
+            </div>
+        </p-dialog>
+    </div>
+
+    <!-- Botones para invocar distintos procesos -->
+    <p-dialog header="Acciones" [(visible)]="acciones" [style]="{width: '50vw', height: '200px'}" [draggable]="false"
+        [resizable]="false" [modal]="true">
+        <div class="p-toolbar-group-center">
+            <p-button label="Info personal" icon="pi pi-user-edit" class="mr-2" [raised]="true" severity="warning"
+                (onClick)="verFrmEditarEmpleado()"></p-button>
+            <!--<p-button label="Info familiar" icon="pi pi-users" class="mr-2" [raised]="true" severity="success"
+                (onClick)="verInfoFamiliar()">
+            </p-button>
+            <p-button label="Info Laboral" icon="pi pi-building" class="mr-2" [raised]="true" severity="info"
+                (onClick)="verInfoLaboral()">
+            </p-button>
+            <p-button label="Info Academica" (onClick)="verInfoAcademica()" icon="pi pi-home" class="mr-2"
+                [raised]="true" severity="help">
+            </p-button>
+            <p-button label="Docs ingreso" (onClick)="verDocumentosIngreso()" icon="pi pi-folder-open" class="mr-2"
+                [raised]="true" severity="danger">
+            </p-button>
+            <p-button label="Docs Confiabilidad" (onClick)="verDocumentosConfiabilidad()" icon="pi pi-folder-open"
+                class="mr-2" [raised]="true" severity="secondary">
+            </p-button>-->
+        </div>
+    </p-dialog>
+
+
+</div>

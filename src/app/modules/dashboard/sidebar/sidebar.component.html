@@ -1,0 +1,29 @@
+<p-sidebar [(visible)]="sidebarVisible" styleClass="w-30rem">
+    <ng-template pTemplate="header">
+        <div class="sidebar-header">
+            <i class="pi pi-bars"></i>
+            <span class="title">Menú Principal</span></div>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <p-panelMenu [model]="menuUsuario"></p-panelMenu>
+    </ng-template>
+       <!--<a class="mr-3 cursor-pointer" (click)="cambioTema('lara-light-teal')" title="lara-light-teal">
+      <img src="../assets/images/lara-light-teal.jpeg" width="52px" height="52px">
+    </a>
+    <a class="mr-3 cursor-pointer" (click)="cambioTema('md-light-deeppurple')" title="md-light-deeppurple">
+      <img src="../assets/images/md-light-deeppurple.jpeg" width="52px" height="52px">
+    </a>
+    <a class="mr-3 cursor-pointer" (click)="cambioTema('bootstrap4-dark-blue')" title="bootstrap4-dark-blue">
+      <img src="../assets/images/bootstrap4-dark-blue.jpeg" width="52px" height="52px">
+    </a>
+    <a class="mr-3 cursor-pointer" (click)="cambioTema('vela-purple')" title="vela-purple">
+      <img src="../assets/images/vela-purple.jpeg" width="52px" height="52px">
+    </a>
+    <a class="mr-3 cursor-pointer" (click)="cambioTema('arya-green')" title="arya-green">
+      <img src="../assets/images/arya-green.jpeg" width="52px" height="52px">
+    </a>
+    <a class="mr-3 cursor-pointer" (click)="cambioTema('md-dark-deeppurple')" title="md-dark-deeppurple">
+      <img src="../assets/images/md-dark-deeppurple.jpeg" width="52px" height="52px">
+    </a>-->
+
+  </p-sidebar>

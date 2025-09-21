@@ -1,0 +1,13 @@
+<app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+
+<div class="layout">
+  <!-- Un solo app-sidebar con ambos inputs -->
+  <app-sidebar 
+    [sidebarVisible]="sidebarVisible" 
+    [menuUsuario]="menuUsuario">
+  </app-sidebar>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

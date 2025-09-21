@@ -1,0 +1,23 @@
+<div class="dashboard-container ">
+    <div class="dashboard-container">
+  <div class="card">
+    <p-toolbar>
+      <ng-template pTemplate="start">
+        <p-button 
+            [text]="true" 
+            icon="pi pi-bars" 
+            size="large"
+            (click)="abrirSidebar()">
+          </p-button>
+        <span class="titulo">Control Documental</span>
+      </ng-template>
+      <ng-template pTemplate="end">
+        <p-button icon="pi pi-question-circle" size="large" [text]="true" title="Ayuda"></p-button>
+        <p-button icon="pi pi-user-minus" size="large" [text]="true" title="Cerrar sesion"></p-button>
+      </ng-template>
+    </p-toolbar>
+  </div>
+  
+  <router-outlet></router-outlet>
+</div>
+</div>
